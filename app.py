@@ -24,8 +24,7 @@ st.markdown(
     }}
     
     /* Sidebar - Black Glassmorphism with White Text */
-    .stSidebar {{
-        background: rgba(10, 10, 10, 0.85) !important;
+   
       
     }}
     
