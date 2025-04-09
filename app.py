@@ -23,15 +23,39 @@ st.markdown(
         color: white;
     }}
     
-    /* Sidebar with same background image */
+    /* Sidebar - Black Glassmorphism with White Text */
     .stSidebar {{
-        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('{BACKGROUND_IMAGE}') no-repeat center center fixed !important;
-        background-size: cover !important;
+        background: rgba(10, 10, 10, 0.85) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
     }}
-
-    /* White headings */
+    
+    .stSidebar .stMarkdown h1,
+    .stSidebar .stMarkdown h2,
+    .stSidebar .stMarkdown h3,
+    .stSidebar .stMarkdown h4,
+    .stSidebar .stMarkdown h5,
+    .stSidebar .stMarkdown h6 {{
+        color: white !important;
+    }}
+    
+    /* Force white text for all headings */
     h1, h2, h3, h4, h5, h6 {{
         color: white !important;
+        background-image: none !important;
+        -webkit-text-fill-color: white !important;
+    }}
+    
+    /* Dashboard title specific styling */
+    .dashboard-title {{
+        color: white !important;
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 1.5rem;
+        background: none !important;
+        -webkit-text-fill-color: white !important;
+        text-shadow: none !important;
     }}
     
     /* Input fields - white background with black text */
@@ -81,19 +105,9 @@ st.markdown(
         border-left: 4px solid #1db954 !important;
     }}
     
-    /* Gradient Titles */
-    .gradient-title {{
-        background: linear-gradient(135deg, #1db954, #0a5c36);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 2.5rem;
-        text-align: center;
-        margin-bottom: 20px;
-    }}
-    
     /* Responsive Design */
     @media (max-width: 768px) {{
-        .gradient-title {{
+        .dashboard-title {{
             font-size: 2rem;
         }}
         
@@ -152,58 +166,71 @@ if "authorized" not in st.session_state:
 if "current_user" not in st.session_state:
     st.session_state.current_user = ""
 
-# --- Fun Facts About Encryption ---
-ENCRYPTION_FACTS = [
-    "The Caesar Cipher is one of the earliest known encryption techniques.",
-    "Modern encryption uses algorithms that are nearly impossible to crack without the key.",
-    "Quantum computers could potentially break current encryption methods.",
-    "AES (Advanced Encryption Standard) is widely used for secure data encryption.",
-    "Encryption protects over 80% of online transactions worldwide."
-]
-
-def display_random_fact():
-    fact = random.choice(ENCRYPTION_FACTS)
-    st.info(f"💡 **Did You Know?** {fact}")
-
-# --- Interactive Game: Decode Challenge ---
-def decode_challenge():
-    st.subheader("🎮 Decode Challenge")
-    challenge_text = "HELLOSECURE"
-    encrypted_challenge = encrypt_data(challenge_text)
-    
-    st.write("Can you decode this encrypted message?")
-    st.code(encrypted_challenge, language="text")
-    
-    user_input = st.text_input("Enter the decrypted text:")
-    
-    if st.button("Check Answer"):
-        if user_input.strip().upper() == challenge_text:
-            st.success("🎉 Correct! You decoded the message!")
-        else:
-            st.error("❌ Incorrect. Try again!")
-
 # --- Dashboard Page ---
 def dashboard_page():
     """Dashboard/Home Page"""
-    st.markdown('<h1 class="gradient-title">📊 Secure Data Vault</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="dashboard-title">📊 Secure Data Vault</h1>', unsafe_allow_html=True)
     
-    # Display Random Fact
-    display_random_fact()
+    # Stats Cards Row
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown(f"""
+        <div class="card" style="text-align: center;">
+            <h3>🔢</h3>
+            <h2>{len(st.session_state.data_store[st.session_state.current_user]["entries"])}</h2>
+            <p>Total Secrets</p>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Welcome Message
-    with st.container():
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.write("""
-        Welcome to the **Secure Data Vault**! This application allows you to securely store and retrieve encrypted data.
-        Use the sidebar to navigate between different features:
-        - **Store Data**: Encrypt and save your sensitive information.
-        - **Retrieve Data**: Decrypt and access your stored data.
-        - **Logout**: Securely log out of your account.
-        """)
-        st.markdown('</div>', unsafe_allow_html=True)
+    with col2:
+        st.markdown("""
+        <div class="card" style="text-align: center;">
+            <h3>🛡️</h3>
+            <h2>256-bit</h2>
+            <p>Encryption</p>
+        </div>
+        """, unsafe_allow_html=True)
     
-    # Interactive Game
-    decode_challenge()
+    with col3:
+        st.markdown("""
+        <div class="card" style="text-align: center;">
+            <h3>⚡</h3>
+            <h2>100%</h2>
+            <p>Secure</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # Security Tips
+    st.subheader("🔒 Security Tips")
+    tips = [
+        "Change passwords every 3 months",
+        "Never share encryption keys",
+        "Use complex passphrases",
+        "Enable 2FA where possible",
+        "Beware of phishing attempts"
+    ]
+    
+    for tip in tips:
+        st.markdown(f"""
+        <div class="card" style="padding: 12px 15px; margin-bottom: 8px;">
+            <p>✓ {tip}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Quick Actions
+    st.markdown("---")
+    st.subheader("🚀 Quick Actions")
+    action_col1, action_col2 = st.columns(2)
+    with action_col1:
+        if st.button("🔒 Encrypt New Data", use_container_width=True):
+            st.session_state.page = "store"
+            st.rerun()
+    with action_col2:
+        if st.button("🔓 Decrypt Data", use_container_width=True):
+            st.session_state.page = "retrieve"
+            st.rerun()
 
 # --- Login/Register Page ---
 def login_page():
