@@ -1,0 +1,23 @@
+# Ignore sensitive files
+data_store.json
+fernet_key.key
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environments
+venv/
+env/
+ENV/
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.sublime-project
+
+# Ignore logs and temporary files
+*.log
+*.tmp

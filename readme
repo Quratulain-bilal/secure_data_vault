@@ -1,0 +1,22 @@
+# 🛡️ Secure Data Vault
+
+Secure Data Vault is a web-based application built with **Streamlit** that allows users to securely store and retrieve encrypted data. The application uses **Fernet encryption** from the `cryptography` library to ensure data security.
+
+---
+
+## 🌟 Features
+
+- **User Authentication**: Register and log in securely.
+- **Data Encryption**: Encrypt sensitive data using a passkey.
+- **Data Retrieval**: Decrypt stored data with the correct passkey.
+- **Interactive Dashboard**: Includes fun facts about encryption and a decoding challenge game.
+- **Persistent Storage**: Encrypted data is stored in a JSON file (`data_store.json`).
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.8 or higher
+- Pip (Python package manager)
+
