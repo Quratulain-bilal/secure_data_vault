@@ -1,4 +1,4 @@
-import streamlit as st
+zzimport streamlit as st
 from cryptography.fernet import Fernet
 from base64 import urlsafe_b64encode
 from hashlib import pbkdf2_hmac
@@ -10,7 +10,7 @@ import random
 DATA_FILE = "data_store.json"
 MAX_FAILED_ATTEMPTS = 3
 DEFAULT_SALT = "studifinity_salt"
-BACKGROUND_IMAGE = "https://images.squarespace-cdn.com/content/v1/661d9596a3b2bd018144031b/42c3a0a5-9150-487c-8a36-24e8703a1639/Photo+3+(Technology)+small+bw.jpg"
+BACKGROUND_IMAGE = "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
 
 # --- UI Styling ---
 st.markdown(
